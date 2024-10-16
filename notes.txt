@@ -1,0 +1,3 @@
+// Node.js is run time environment to run js in server side/ backened
+// node .js is built on top of v8 engine
+// js code=>v8engine=> machine level code
