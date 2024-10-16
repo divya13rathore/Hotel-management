@@ -34,9 +34,14 @@ const menus=require('./models/menu.js');
 require('dotenv').config();
 const bodyPareser=require('body-parser');
 app.use(bodyPareser.json());
-app.get('/',function(req,res){
-   res.send("Hello World");
-})
+const passport=require('passport');
+const localPassport=require('passport-local').Strategy
+const loginRequest=(req,res,next)=>{
+console.log(`${new Date().toLocaleString()} is running through ${req.originalUrl}`);
+next(); // move to next phase , current phase is completed
+}
+const bcrypt=require('bcrypt');
+
 const personRoute=require('./routes/personroute.js');
 app.get('/div',function(req,res){
     const obj={
@@ -46,52 +51,30 @@ app.get('/div',function(req,res){
     res.send(obj);
 })
 
-// app.post('/persondata',async(req,res)=>{
-//     const newPerson= new person(req.body);
+// passport.use(new localPassport(async (user, pass, done)=>{
 //     try{
-// const p=await newPerson.save();
-//     console.log("Data Saved");
-//     res.status(200).json(p);
-//     }
-//     catch(error)
-//     {
-//         console.log("Error"+error);
-//         res.status(500).json({error:"Error in saving data"});
-//     }
-// })
-
-// app.get('/persondata',async(req,res)=>{
-//     try{
-//       const data=await person.find();
-//       console.log("Fetched data");
-//       res.status(200).json(data);
-//     }
-//     catch(error)
-//     {
-//   console.log(`Error in fetching data ${error}`);
-//     }
-// })
-// app.get('/persondata/:workType',async(req,res)=>{
-// try{
-//     const workType=req.params.workType;
-//     if(workType=='chef'||workType=='manager'|| workType=='waiter')
-//     {
-//         const data=await person.find({work:workType});
-//         console.log("Fetched Successfully!!!")
-//         res.status(200).json(data);
-//     }
-//     else{
-//         res.status(400).json({message:"Not Found!!"});
-
-//     }
-//     }
-// catch(error)
+// const userData=await person.findOne({username:user});
+// if(!userData)
 // {
-//     res.status(500).json({message:"Not Found!!!",errors:error});
+//     return done(null,false,{message:"Not Found"});
 // }
-
-
-// })
+// const ispassword=user.comparePassowrd(password);
+// if(!ispassword)
+// {
+//     return done(null,false,{message:"wrong Password"});
+// }
+// return done(null,user);
+//     }
+//     catch(err)
+//     {
+//         return done(err);
+//     }
+// }))
+// app.use(passport.initialize());
+// const middl=passport.authenticate('local',{session:false});
+app.get('/',function(req,res){
+    res.send("Hello World");
+ })
 const PORT=process.env.PORT||3000;
 app.use('/persondata',personRoute);
 app.listen(PORT,()=>{
