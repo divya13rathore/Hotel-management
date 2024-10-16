@@ -31,6 +31,7 @@ const db=require('./db')
 const app=express();
 const person=require('./models/person.js')
 const menus=require('./models/menu.js');
+require('dotenv').config();
 const bodyPareser=require('body-parser');
 app.use(bodyPareser.json());
 app.get('/',function(req,res){
@@ -91,8 +92,8 @@ app.get('/div',function(req,res){
 
 
 // })
-
+const PORT=process.env.PORT||3000;
 app.use('/persondata',personRoute);
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log("App is running on port 3000");
 });
